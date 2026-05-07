@@ -2,9 +2,15 @@
 
 {% block content %}
 <h2>Candidates</h2>
+
+<form action="{{ url_for('candidates_page') }}" method="post">
+    <input type="number" name="min_score" placeholder="Enter score % to filter (e.g 70)" min="0" max="100">
+    <button type="submit">Filter</button>
+</form>
+
 <div class="candidates-container">
 
-    {% if candidates %}
+    {% if candidates_data %}
         <table>
             <thead>
                 <tr>
@@ -13,16 +19,18 @@
                     <th>Skills</th>
                     <th>Score</th>
                     <th>Applied At</th>
+                    <th>AI Summary</th>
                 </tr>
             </thead>
             <tbody>
-                {% for candidate in candidates %}
+                {% for candidate in candidates_data %}
                     <tr>
                         <td>{{ candidate.candidate_name }}</td>
                         <td>{{ candidate.email }}</td>
                         <td>{{ candidate.skills }}</td>
                         <td>{{ candidate.score }}%</td>
                         <td>{{ candidate.applied_at }}</td>
+                        <td>{{ candidate.summary }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

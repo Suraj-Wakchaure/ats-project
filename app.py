@@ -2,15 +2,17 @@ from flask import request, render_template, redirect, url_for, jsonify, Flask, f
 from fuzzywuzzy import fuzz
 from datetime import datetime
 from database import get_database, init_database
+from api import get_summary
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__) #create the app
 app.secret_key = os.getenv('SECRET_KEY')
 ADMIN_USER = os.getenv('ADMIN_USERNAME')
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
+
 
 @app.route('/')
 def main_page():
@@ -19,6 +21,7 @@ def main_page():
     conn.close()
     return render_template('landing_page.html', jobs=jobs)
 
+#handle simple authentication
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -33,11 +36,13 @@ def login():
             return redirect(url_for('login'))
     return render_template('login.html')
 
+
 @app.route('/logout')
 def logout():
     session.pop('user', None)
     flash('You logged out!')
     return redirect(url_for('main_page'))
+
 
 #render the job page
 @app.route('/jobs')
@@ -50,18 +55,44 @@ def jobs_page():
     conn.close()
     return render_template('jobs_page.html', jobs=jobs)
 
+
 #render the candidate page
-@app.route('/candidates')
+@app.route('/candidates', methods=['GET', 'POST'])
 def candidates_page():
     if 'user' not in session:
         flash('Please login!')
         return redirect(url_for('login'))
     
+    min_score = 0
+    if request.method == 'POST':
+        min_score = request.form.get('min_score', 0)
+        min_score = int(min_score) if min_score else 0
+    
     conn = get_database()
     
-    candidates = conn.execute('SELECT * FROM applications ORDER BY score DESC').fetchall()
+    candidates_data = conn.execute('''SELECT applications.*, jobs.title, jobs.skills_required 
+                                   FROM applications 
+                                   JOIN jobs ON applications.job_id = jobs.id 
+                                   WHERE applications.score >= ? 
+                                   ORDER BY applications.score DESC''', (min_score,)).fetchall()
+    
+    candidates_data_list = []
+    
+    #get summary only if not already there
+    for data in candidates_data:
+        data = dict(data)
+        if not data['summary']:
+            summary = get_summary(data['candidate_name'], data['skills'], data['score'], data['title'], data['skills_required'])
+            
+            conn.execute('UPDATE applications SET summary = ? WHERE id = ?', (summary, data['id']))
+            conn.commit()
+            data['summary'] = summary
+        candidates_data_list.append(data)
+            
+    
     conn.close()
-    return render_template('candidates_page.html', candidates=candidates)
+    return render_template('candidates_page.html', candidates_data=candidates_data_list, min_score=min_score)
+
 
 #render the notifications page
 @app.route('/notifications')
@@ -76,6 +107,7 @@ def notifications_page():
     conn.close()
     return render_template('notifications_page.html', notifications=notifications)
 
+#to display all jobs
 @app.route('/api/jobs', methods=["GET"])
 def get_jobs():
     conn = get_database()
@@ -83,6 +115,7 @@ def get_jobs():
     conn.close()
     return jsonify([dict(row) for row in jobs])
 
+#to create new job
 @app.route('/api/jobs', methods=["POST"])
 def create_jobs():
     if 'user' not in session:
@@ -117,6 +150,7 @@ def calculate_score(required_skills, candidate_skills):
                 break
     return round(match_score/len(required) * 100, 2)
 
+
 @app.route('/apply/<int:job_id>')
 def apply_page(job_id):
     conn =  get_database()
@@ -126,6 +160,7 @@ def apply_page(job_id):
         flash('Job not found')
         return redirect(url_for('main_page'))
     return render_template('apply_page.html', job=job)
+
 
 @app.route('/apply', methods=['POST'])
 def apply():
@@ -147,9 +182,9 @@ def apply():
         conn.close()
         return redirect(url_for('jobs_page'))
     
-    applied = conn.execute('SELECT id FROM applications WHERE email = ? and job_id = ?', (email, job_id)).fetchone()
+    if_applied = conn.execute('SELECT id FROM applications WHERE email = ? and job_id = ?', (email, job_id)).fetchone()
     
-    if applied:
+    if if_applied:
         flash('You have already applied')
         conn.close()
         return redirect(url_for('jobs_page'))
@@ -199,6 +234,7 @@ def mark_as_unread_page(notification_id):
     conn.commit()
     conn.close()
     return redirect(url_for('notifications_page'))
+
 
 init_database()
 if __name__ == '__main__':

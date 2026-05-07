@@ -93,6 +93,7 @@ Password: admin123
 | GET | `/apply/<job_id>` | Candidate apply page | - |
 | POST | `/apply` | Submit application | `candidate_name, email, skills, job_id` |
 | GET | `/candidates` | Candidates ranked by score | - |
+| POST | `/candidates` | Filter candidates by min score | `min_score` |
 | GET | `/notifications` | View notifications | - |
 | POST | `/notifications/<notification_id>/read` | Mark as read | - |
 | POST | `/notifications/<notification_id>/unread` | Mark as unread | - |
@@ -109,6 +110,18 @@ matched skills / required skills x 100
 python + flask matched = 2/3 = 66.67%
 4. Fuzzy matching handles typos and variations
 5. Candidates ranked highest score first
+
+---
+
+## Bonus Features Implemented
+
+- Filtering candidates by minimum score (score > X)
+- AI-generated candidate summaries using Groq (Llama3)
+- Resume upload support
+
+## Bonus Features Used
+- Groq API (Llama3) for AI candidate summaries
+- fuzzywuzzy for intelligent skill matching (handles typos and variations)
 
 ---
 

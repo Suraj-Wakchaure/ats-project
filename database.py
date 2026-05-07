@@ -25,6 +25,7 @@ def init_database():
                  skills TEXT NOT NULL,
                  score REAL DEFAULT 0,
                  applied_at TEXT,
+                 summary TEXT,
                  job_id INTEGER,
                  FOREIGN KEY (job_id) REFERENCES jobs(id)
                  )
