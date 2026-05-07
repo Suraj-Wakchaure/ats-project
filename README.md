@@ -67,6 +67,8 @@ ADMIN_USERNAME=admin
 
 ADMIN_PASSWORD=admin123
 
+API_KEY=your_api_key
+
 ### 4. Run the app
 python app.py
 
