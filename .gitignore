@@ -1,0 +1,4 @@
+.env
+ats.db
+__pycache__/
+venv/

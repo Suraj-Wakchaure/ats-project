@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* HEADER & NAV */
+header {
+    background-color: #2c3e50;
+    padding: 15px 30px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 15px;
+}
+
+nav a:hover {
+    color: #3498db;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #2c3e50;
+    color: white;
+    margin-top: 40px;
+}
+
+/* FLASH MESSAGES */
+.flash-messages {
+    padding: 10px 30px;
+}
+
+.flash-msg {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+/* MAIN CONTENT */
+.block-content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* FORMS */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    width: fit-content;
+}
+
+button:hover {
+    background-color: #3498db;
+}
+
+/* LOGIN */
+.login-container {
+    max-width: 400px;
+    margin: 60px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* LANDING PAGE */
+.action-btn {
+    margin: 20px 0;
+    display: flex;
+    gap: 15px;
+}
+
+/* JOB CARDS */
+.job-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.job-card h4 {
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+.job-card p {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* APPLY PAGE */
+.apply-container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.apply-container h2 {
+    margin-bottom: 10px;
+}
+
+.apply-container a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+/* CANDIDATES TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+th {
+    background-color: #2c3e50;
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* notifications */
+.notification-card {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-left: 4px solid #ccc;
+}
+
+.notification-card.unread {
+    border-left: 4px solid #3498db;
+    font-weight: bold;
+}
+
+.notification-card.read {
+    border-left: 4px solid #ccc;
+    color: #888;
+}
+
+.notification-card small {
+    display: block;
+    color: #999;
+    margin: 5px 0 10px;
+    font-size: 12px;
+}
+
+/* SELECT DROPDOWN */
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+}
+
+h1, h2, h3, h4 {
+    margin-bottom: 15px;
+}

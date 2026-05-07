@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Job Application Tracking System</h1>
+
+{% if jobs %}
+<div class="action-btn">
+    <a href="{{ url_for('login') }}"><button>Admin Login</button></a>
+</div>
+<br>
+<h2>Available Jobs</h2>
+{% for job in jobs %}
+<div class="job-card">
+    <h4>{{ job.title }}</h4>
+    <p>Required Skills: {{ job.skills_required }}</p>
+    <a href="{{ url_for('apply_page', job_id=job.id) }}">
+        <button>Apply Now</button>
+    </a>
+</div>
+{% endfor %}
+{% else %}
+<div class="action-btn">
+    <a href="{{ url_for('login') }}"><button>Admin Login</button></a>
+</div>
+<p>No jobs available right now.</p>
+{% endif %}
+
+{% endblock %}

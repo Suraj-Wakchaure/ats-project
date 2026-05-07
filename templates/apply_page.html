@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="apply-container">
+
+    <h2>Apply for {{ job.title }}</h2>
+    <p>Required Skills: <strong>{{ job.skills_required }}</strong></p>
+
+    <form method="POST" action="{{ url_for('apply') }}">
+
+        <input
+            type="hidden"
+            name="job_id"
+            value="{{ job.id }}">
+
+        <input
+            type="text"
+            name="candidate_name"
+            placeholder="Your Full Name"
+            required>
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            required>
+
+        <input
+            type="text"
+            name="skills"
+            placeholder="Your Skills (e.g. python,flask,sql)"
+            required>
+
+        <button type="submit">Submit Application</button>
+
+    </form>
+
+    <br>
+    <a href="{{ url_for('main_page') }}">← Back to Jobs</a>
+
+</div>
+{% endblock %}
