@@ -80,7 +80,7 @@ def candidates_page():
     
     #get summary only if not already there
     for data in candidates_data:
-        data = dict(data)
+
         if not data['summary']:
             summary = get_summary(data['candidate_name'], data['skills'], data['score'], data['title'], data['skills_required'])
             
@@ -113,7 +113,7 @@ def get_jobs():
     conn = get_database()
     jobs = conn.execute('SELECT * FROM jobs').fetchall()
     conn.close()
-    return jsonify([dict(row) for row in jobs])
+    return render_template('jobs_page.html', jobs=jobs)
 
 #to create new job
 @app.route('/api/jobs', methods=["POST"])
@@ -167,7 +167,7 @@ def apply():
     candidate_name = request.form.get('candidate_name', '').strip()
     email = request.form.get('email', '').strip()
     skills = request.form.get('skills', '').strip()
-    job_id = request.form.get('job_id', type=int)
+    job_id = request.form.get('job_id')
 
 
     if not candidate_name or not email or not skills or not job_id:
@@ -209,7 +209,7 @@ def get_notifications():
     conn = get_database()
     notifications = conn.execute('SELECT * FROM notifications ORDER BY timestamp DESC').fetchall()
     conn.close()
-    return jsonify([dict(row) for row in notifications])
+    return render_template('notifications_page.html', notifications=notifications)
 
 
 @app.route('/notifications/<int:notification_id>/read', methods=['POST'])
@@ -238,4 +238,4 @@ def mark_as_unread_page(notification_id):
 
 init_database()
 if __name__ == '__main__':
-    app.run(debug = True)    
+    app.run()    
