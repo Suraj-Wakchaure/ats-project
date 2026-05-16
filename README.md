@@ -67,6 +67,8 @@ ADMIN_USERNAME=admin
 
 ADMIN_PASSWORD=admin123
 
+API_KEY=your_api_key
+
 ### 4. Run the app
 python app.py
 
@@ -118,7 +120,6 @@ python + flask matched = 2/3 = 66.67%
 
 - Filtering candidates by minimum score (score > X)
 - AI-generated candidate summaries using Groq (Llama3)
-- Resume upload support
 
 ## Bonus Features Used
 - Groq API (Llama3) for AI candidate summaries
